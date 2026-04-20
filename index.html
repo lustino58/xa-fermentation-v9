@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>XA Fermentation PRO - FERRARI EDITION V8</title>
+
+  <meta name="theme-color" content="#020617" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+
+  <style>
+    :root {
+      --bg-dark: #020617; --bg-panel: #0f172a; --bg-glass: rgba(15, 23, 42, 0.8);
+      --border-light: #1e293b; --border-glow: rgba(0, 216, 255, 0.3);
+      --text-main: #f8fafc; --text-muted: #94a3b8;
+
+      --red: #f43f5e; --orange: #f97316; --yellow: #eab308;
+      --green: #10b981; --cyan: #06b6d4; --blue: #3b82f6; --violet: #8b5cf6;
+
+      --neon-red: 0 0 15px rgba(244, 63, 94, 0.5);
+      --neon-cyan: 0 0 15px rgba(6, 182, 212, 0.5);
+      --neon-green: 0 0 15px rgba(16, 185, 129, 0.5);
+      --neon-yellow: 0 0 15px rgba(234, 179, 8, 0.5);
+
+      --shadow-panel: 0 20px 40px rgba(0,0,0,0.8);
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding: 15px;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 90%, rgba(244, 63, 94, 0.05) 0%, transparent 50%);
+      min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #020617; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+    .app { max-width: 1600px; margin: 0 auto; }
+    .digital-font { font-family: 'Courier New', Courier, monospace; font-weight: 900; }
+
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-panel);
+      position: relative;
+      overflow: hidden;
+    }
+    .panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      margin-bottom: 5px;
+      text-shadow: var(--neon-cyan);
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .hero { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+    .logo {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      border: 2px solid var(--border-light);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      box-shadow: var(--neon-cyan);
+    }
+    .hero h1 { font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 4px; }
+    .hero p {
+      color: var(--cyan);
+      font-weight: bold;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      background: #1e293b;
+      color: #fff;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      border: 1px solid transparent;
+    }
+    .btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+    .btn:active { transform: translateY(1px); box-shadow: none; }
+    .btn.nav { background: transparent; color: var(--text-muted); border: 1px solid transparent; }
+    .btn.nav.active { background: var(--blue); color: #fff; box-shadow: var(--neon-cyan); border-color: var(--cyan); }
+    .btn.red { background: linear-gradient(to bottom, #e11d48, #be123c); border-color: #f43f5e; }
+    .btn.green { background: linear-gradient(to bottom, #10b981, #047857); border-color: #34d399; }
+    .btn.yellow { background: linear-gradient(to bottom, #eab308, #a16207); border-color: #fde047; color: #000; }
+
+    .screen { display: none; animation: fadeUp 0.4s ease; }
+    .screen.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .editor-layout { display: grid; grid-template-columns: 1fr 450px; gap: 20px; align-items: start; }
+    @media(max-width: 1200px) { .editor-layout { grid-template-columns: 1fr; } }
+
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 11px; font-weight: 800; color: var(--cyan); text-transform: uppercase; letter-spacing: 1px; }
+    .input-pro {
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .input-pro:focus { border-color: var(--cyan); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 0 10px rgba(6, 182, 212, 0.3); }
+    textarea.input-pro { min-height: 100px; resize: vertical; font-family: inherit; line-height: 1.5; }
+
+    .official-sheet {
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 30px;
+      border-radius: 4px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 0 15px 30px rgba(0,0,0,0.5);
+      min-height: 600px;
+      font-family: 'Courier New', Courier, monospace;
+      position: sticky;
+      top: 80px;
+      border-top: 15px solid #1e293b;
+      border-bottom: 15px solid #1e293b;
+    }
+    .sheet-head { border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+    .sheet-title { font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
+    .sheet-meta { font-size: 13px; font-weight: bold; margin-top: 5px; }
+    .sheet-section {
+      font-weight: 900;
+      background: #e2e8f0;
+      padding: 4px 8px;
+      margin: 20px 0 10px 0;
+      border-left: 5px solid var(--blue);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .sheet-content { font-size: 14px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 15px; }
+
+    .db-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+    .search-box { flex: 1; min-width: 200px; }
+    .search-box input {
+      width: 100%;
+      background: #020617;
+      border: 2px solid var(--blue);
+      border-radius: 30px;
+      padding: 12px 20px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+      outline: none;
+      box-shadow: var(--neon-cyan);
+    }
+
+    .db-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
+    .db-tab {
+      flex-shrink: 0;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .db-tab.active { background: var(--blue); color: #fff; border-color: var(--cyan); box-shadow: var(--neon-cyan); }
+
+    .db-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+      max-height: 600px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .item-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: var(--radius-md);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .item-card:hover { border-color: var(--cyan); box-shadow: 0 5px 15px rgba(0,0,0,0.5); transform: translateY(-2px); }
+    .item-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background: var(--blue); }
+
+    .item-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 5px; }
+    .tag {
+      background: #1e293b;
+      color: var(--cyan);
+      font-size: 9px;
+      font-weight: 900;
+      padding: 3px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .item-name { font-size: 15px; font-weight: 900; color: #fff; }
+    .item-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; flex-grow: 1; }
+
+    .btn-insert {
+      background: var(--green);
+      color: #000;
+      border: none;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-weight: 900;
+      font-size: 11px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-insert:hover { background: #34d399; box-shadow: var(--neon-green); }
+
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; place-items: center; backdrop-filter: blur(5px); }
+    .modal-overlay.active { display: grid; animation: fadeIn 0.3s; }
+    .modal-content {
+      background: var(--bg-panel);
+      border: 1px solid var(--cyan);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: var(--neon-cyan);
+    }
+    .modal-title { color: var(--cyan); font-size: 20px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .mixer-container { overflow-x: auto; padding-bottom: 20px; margin: 0 -20px; padding-left: 20px; padding-right: 20px;}
+    .mixer-board { display: flex; gap: 12px; min-width: max-content; }
+
+    .strip {
+      width: 130px;
+      background: linear-gradient(180deg, #16202d, #0b111a);
+      border: 1px solid #2a3a50;
+      border-radius: var(--radius-md);
+      padding: 15px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: inset 0 2px 5px rgba(255,255,255,0.05), 10px 10px 20px rgba(0,0,0,0.8);
+      position: relative;
+    }
+    .strip.master { width: 200px; border-color: var(--red); background: linear-gradient(180deg, #2d161d, #0b0507); }
+
+    .strip-name { font-size: 14px; font-weight: 900; color: #fff; letter-spacing: 1px; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.3);}
+    .strip-screen {
+      background: #000;
+      border: 2px solid #1e293b;
+      border-radius: 6px;
+      padding: 10px 5px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 15px;
+      box-shadow: inset 0 5px 10px rgba(0,0,0,1);
+    }
+    .strip-val { font-size: 24px; color: var(--cyan); text-shadow: var(--neon-cyan); }
+    .strip-unit { font-size: 9px; color: #64748b; font-weight: bold; margin-top: 5px; }
+
+    .fader-area {
+      flex-grow: 1;
+      display: grid;
+      grid-template-columns: 12px 1fr 12px;
+      gap: 8px;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .vu-meter {
+      height: 180px;
+      background: #000;
+      border: 1px solid #1e293b;
+      border-radius: 4px;
+      padding: 2px;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 2px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
+    }
+    .vu-meter span { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 2px; }
+    .vu-meter span.on.g { background: #10b981; box-shadow: 0 0 8px #10b981; }
+    .vu-meter span.on.y { background: #eab308; box-shadow: 0 0 8px #eab308; }
+    .vu-meter span.on.r { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
+
+    .fader-track { display: flex; justify-content: center; height: 180px; position: relative; }
+    .fader-input {
+      -webkit-appearance: none;
+      width: 170px;
+      height: 40px;
+      transform: rotate(-90deg);
+      background: transparent;
+      outline: none;
+      margin: 0;
+    }
+    .fader-input::-webkit-slider-runnable-track {
+      height: 10px;
+      background: #000;
+      border-radius: 5px;
+      border: 1px solid #334155;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.9);
+    }
+    .fader-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 40px;
+      height: 24px;
+      background: linear-gradient(90deg, #1e293b, #475569, #1e293b);
+      border: 1px solid #000;
+      border-top: 1px solid #94a3b8;
+      border-radius: 4px;
+      margin-top: -8px;
+      cursor: ns-resize;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.8);
+    }
+    .master .fader-input::-webkit-slider-thumb { background: var(--red); box-shadow: var(--neon-red); }
+
+    .strip-btns { display: grid; gap: 5px; width: 100%; }
+    .s-btn {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #64748b;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 8px 0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .s-btn.on { background: var(--red); color: #fff; border-color: var(--red); box-shadow: var(--neon-red); }
+
+    .telemetry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .tel-box {
+      background: #000;
+      border: 1px solid #1e293b;
+      padding: 15px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    }
+    .tel-lbl { font-size: 10px; color: var(--text-muted); font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
+    .tel-val { font-size: 24px; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 22px; }
+      .panel { padding: 16px; }
+      .official-sheet { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+    <div class="hero">
+      <div class="logo">XA</div>
+      <div>
+        <h1>XA FERMENTATION PRO</h1>
+        <p>Master Engine // Ferrari V8 Edition</p>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <button class="btn nav active" data-target="screen-recipe">1. DATABASE & RICETTA</button>
+      <button class="btn nav" data-target="screen-mixer">2. MIXER & TELEMETRIA</button>
+      <button class="btn nav" data-target="screen-archive">3. ARCHIVIO LOTTI</button>
+    </div>
+
+    <section id="screen-recipe" class="screen active">
+      <div class="panel" style="border-color: var(--yellow); display: flex; gap: 15px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+        <div>
+          <div class="section-title" style="color: var(--yellow); text-shadow: var(--neon-yellow);">LIBRERIA STILI UFFICIALI (BJCP & CAMBUSA)</div>
+          <div class="section-subtitle" style="margin-bottom:0;">Seleziona lo stile per autocompilare parametri e ingredienti ottimali.</div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; flex-grow: 1; max-width: 600px;">
+          <select id="template_selector" class="input-pro" style="flex: 1; border-color: var(--yellow); font-weight: bold; cursor: pointer;">
+            <option value="">-- Seleziona uno Stile dal Database --</option>
+            <optgroup label="BJCP - BIRRA">
+              <option value="bjcp_pils">Czech Premium Pale Lager (BJCP 3B)</option>
+              <option value="bjcp_weiss">Weissbier (BJCP 10A)</option>
+              <option value="bjcp_stout">Irish Stout (BJCP 15B)</option>
+              <option value="bjcp_ipa">American IPA (BJCP 21A)</option>
+              <option value="bjcp_neipa">Hazy / New England IPA (BJCP 21C)</option>
+              <option value="bjcp_saison">Saison (BJCP 25B)</option>
+            </optgroup>
+            <optgroup label="BJCP - SIDRO & IDROMELE">
+              <option value="bjcp_cider_new">New World Cider (BJCP C1A)</option>
+              <option value="bjcp_cider_eng">English Cider Tradizionale (BJCP C1B)</option>
+              <option value="bjcp_perry">Traditional Perry (BJCP C2B)</option>
+              <option value="bjcp_mead">Dry Traditional Mead (BJCP M1A)</option>
+            </optgroup>
+            <optgroup label="CAMBUSA - TÈ E FERMENTATI MISTI">
+              <option value="tea_kombucha">Kombucha Classico (Tè Nero)</option>
+              <option value="tea_jun">Jun (Tè Verde & Miele)</option>
+              <option value="mix_wild">Wild Ale / Fermentazione Mista</option>
+              <option value="mix_botanico">Fermentato Botanico Salato (L. Rheticus)</option>
+            </optgroup>
+          </select>
+          <button class="btn yellow" onclick="loadSelectedTemplate()">CARICA</button>
+          <button class="btn red" onclick="clearRecipe()">SVUOTA</button>
+        </div>
+      </div>
+
+      <div class="editor-layout">
+        <div>
+          <div class="panel">
+            <div class="section-title">Anagrafica Lotto</div>
+            <div class="form-grid">
+              <div class="field"><label>Nome Ricetta</label><input type="text" id="r_name" class="input-pro" placeholder="Es. IPA Estiva"></div>
+              <div class="field"><label>ID Lotto / Data</label><input type="text" id="r_lot" class="input-pro" placeholder="Es. XA-005"></div>
+              <div class="field"><label>Lievito Principale</label><input type="text" id="r_yeast" class="input-pro" placeholder="Usa il DB per riempirlo"></div>
+            </div>
+
+            <div class="field" style="margin-bottom: 15px;">
+              <label>Distinta Ingredienti (Malti, Luppoli, Nutrienti...)</label>
+              <textarea id="r_ingredients" class="input-pro" placeholder="Premi +INSERISCI dal Database per riempire questa lista."></textarea>
+            </div>
+
+            <div class="field" style="margin-bottom: 15px;">
+              <label>Processo e Aggiunte Scaglionate</label>
+              <textarea id="r_process" class="input-pro" placeholder="Es. Giorno 1: Inoculo. Giorno 3: DAP. Giorno 5: Dry Hop..."></textarea>
+            </div>
+
+            <div class="field">
+              <label>Logbook / Note BJCP / Analisi</label>
+              <textarea id="r_notes" class="input-pro" placeholder="Note degustative, problemi, parametri di stile..."></textarea>
+            </div>
+          </div>
+
+          <div class="panel" style="border: 2px solid var(--blue); box-shadow: var(--neon-cyan);">
+            <div class="db-header">
+              <div>
+                <div class="section-title" style="margin-bottom: 0;">MASTER DATABASE</div>
+                <div class="section-subtitle" style="margin-bottom: 0;">Seleziona, Cerca o Aggiungi i tuoi ingredienti.</div>
+              </div>
+              <button class="btn yellow" onclick="openAddModal()">+ AGGIUNGI AL DB</button>
+            </div>
+
+            <div class="search-box" style="margin-bottom: 15px;">
+              <input type="text" id="db_search" placeholder="🔍 Cerca ingrediente, tag, o caratteristica...">
+            </div>
+
+            <div class="db-tabs" id="db_tabs"></div>
+            <div class="db-grid" id="db_grid"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="official-sheet" id="official_sheet"></div>
+          <button class="btn green" style="width: 100%; margin-top: 15px; padding: 15px; font-size: 16px;" onclick="window.print()">STAMPA SCHEDA UFFICIALE</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-mixer" class="screen">
+      <div class="panel">
+        <div class="section-title">Parametric Mixing Console</div>
+        <div class="section-subtitle">Regola i parametri ambientali e chimici per la simulazione.</div>
+
+        <div class="mixer-container">
+          <div class="mixer-board">
+            <div class="strip"><div class="strip-name">CH1: PH</div><div class="strip-screen"><div class="strip-val digital-font" id="m_ph_val" style="color:var(--orange)">3.50</div><div class="strip-unit">ACIDITÀ</div></div><div class="fader-area"><div class="vu-meter" id="vu_ph_l"></div><div class="fader-track"><input type="range" class="fader-input" id="m_ph" min="280" max="500" value="350"></div><div class="vu-meter" id="vu_ph_r"></div></div><div class="strip-btns"><button class="s-btn on">REC</button></div></div>
+            <div class="strip"><div class="strip-name">CH2: TEMP</div><div class="strip-screen"><div class="strip-val digital-font" id="m_temp_val" style="color:var(--red)">20.0</div><div class="strip-unit">° CELSIUS</div></div><div class="fader-area"><div class="vu-meter" id="vu_temp_l"></div><div class="fader-track"><input type="range" class="fader-input" id="m_temp" min="0" max="350" value="200"></div><div class="vu-meter" id="vu_temp_r"></div></div><div class="strip-btns"><button class="s-btn on">REC</button></div></div>
+            <div class="strip"><div class="strip-name">CH3: OG</div><div class="strip-screen"><div class="strip-val digital-font" id="m_og_val" style="color:var(--yellow)">1.050</div><div class="strip-unit">GRAVITÀ INIZ.</div></div><div class="fader-area"><div class="vu-meter" id="vu_og_l"></div><div class="fader-track"><input type="range" class="fader-input" id="m_og" min="1000" max="1120" value="1050"></div><div class="vu-meter" id="vu_og_r"></div></div><div class="strip-btns"><button class="s-btn">REC</button></div></div>
+            <div class="strip"><div class="strip-name">CH4: FG</div><div class="strip-screen"><div class="strip-val digital-font" id="m_fg_val" style="color:var(--green)">1.010</div><div class="strip-unit">GRAVITÀ FINALE</div></div><div class="fader-area"><div class="vu-meter" id="vu_fg_l"></div><div class="fader-track"><input type="range" class="fader-input" id="m_fg" min="998" max="1040" value="1010"></div><div class="vu-meter" id="vu_fg_r"></div></div><div class="strip-btns"><button class="s-btn">REC</button></div></div>
+            <div class="strip"><div class="strip-name">CH5: IBU</div><div class="strip-screen"><div class="strip-val digital-font" id="m_ibu_val" style="color:var(--pink)">28</div><div class="strip-unit">AMAREZZA</div></div><div class="fader-area"><div class="vu-meter" id="vu_ibu_l"></div><div class="fader-track"><input type="range" class="fader-input" id="m_ibu" min="0" max="120" value="28"></div><div class="vu-meter" id="vu_ibu_r"></div></div><div class="strip-btns"><button class="s-btn">REC</button></div></div>
+
+            <div class="strip master">
+              <div class="strip-name" style="color:var(--red);">MASTER BUS</div>
+              <div class="strip-screen" style="border-color:var(--red);"><div class="strip-val digital-font" id="m_abv_val" style="color:var(--red); font-size:32px;">5.25%</div><div class="strip-unit" style="color:var(--red);">ABV CALCOLATO</div></div>
+              <div class="fader-area">
+                <div class="vu-meter" id="vu_master_l"></div>
+                <div class="fader-track"><input type="range" class="fader-input" id="m_master" min="0" max="100" value="72"></div>
+                <div class="vu-meter" id="vu_master_r"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="telemetry-grid">
+        <div class="tel-box"><div class="tel-lbl">ATTENUAZIONE REALE</div><div class="tel-val digital-font" id="t_att">80.0 %</div></div>
+        <div class="tel-box"><div class="tel-lbl">ZUCCHERO RESIDUO</div><div class="tel-val digital-font" id="t_sugar">24.0 g/L</div></div>
+        <div class="tel-box"><div class="tel-lbl">KCAL STIMATE (33cl)</div><div class="tel-val digital-font" id="t_kcal">160</div></div>
+      </div>
+    </section>
+
+    <section id="screen-archive" class="screen">
+      <div class="panel">
+        <div class="section-title">Archivio Lotti</div>
+        <button class="btn green" style="width:100%; font-size: 16px; margin-bottom: 20px;" onclick="saveToArchive()">+ SALVA RICETTA CORRENTE</button>
+        <div id="archive_list"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-content">
+      <div class="modal-title">Aggiungi al Database</div>
+      <div class="field" style="margin-bottom: 10px;">
+        <label>Categoria</label>
+        <select id="modal_cat" class="input-pro">
+          <option value="nutrients">Nutrienti & Chimica</option>
+          <option value="hops">Luppoli</option>
+          <option value="yeasts">Lieviti</option>
+          <option value="malts">Malti e Grani</option>
+          <option value="botanicals">Spezie & Botaniche</option>
+          <option value="teas">Tè & Infusioni</option>
+          <option value="fruits">Frutta</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom: 10px;">
+        <label>Nome Ingrediente</label>
+        <input type="text" id="modal_name" class="input-pro" placeholder="Es. Luppolo Segreto YXH">
+      </div>
+      <div class="field" style="margin-bottom: 10px;">
+        <label>Specifiche / Descrizione</label>
+        <input type="text" id="modal_desc" class="input-pro" placeholder="Es. Alta fermentazione, molto amaro...">
+      </div>
+      <div class="field" style="margin-bottom: 10px;">
+        <label>Tags (separati da virgola)</label>
+        <input type="text" id="modal_tags" class="input-pro" placeholder="Es. AMARO, RESINOSO, USA">
+      </div>
+      <div class="field" style="margin-bottom: 20px;">
+        <label>Unità di Misura default</label>
+        <input type="text" id="modal_unit" class="input-pro" placeholder="Es. g, kg, g/L, dose" value="g">
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn" style="flex:1;" onclick="closeAddModal()">ANNULLA</button>
+        <button class="btn green" style="flex:1;" onclick="saveCustomIngredient()">SALVA NEL DB</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const templates = {
+      bjcp_pils: { name: "Czech Premium Pale Lager", yeast: "W-34/70 (Fermentis)", og: 1050, fg: 1014, ph: 430, temp: 100, ibu: 40, ing: "• Malto Pilsner (Boemo) — 5 kg\n• Luppolo Saaz — 60g (Boil 60')\n• Luppolo Saaz — 40g (Boil 15')", proc: "[MASH] Decoction mash consigliato, o step mash a 62°C e 70°C.\n[FERMENTAZIONE] Bassa fermentazione a 10-12°C. Diacetyl rest a 16°C verso la fine.", notes: "BJCP 3B: Ricca, complessa, maltata ma con un amaro floreale/speziato netto. Attenuazione medio-bassa." },
+      bjcp_weiss: { name: "Weissbier Tradizionale", yeast: "WB-06 / WLP300", og: 1048, fg: 1010, ph: 440, temp: 190, ibu: 12, ing: "• Frumento Maltato — 3 kg\n• Malto Pilsner — 2 kg\n• Luppolo Hallertau — 20g (Boil 60')", proc: "[MASH] Acid rest (opzionale) per esaltare i fenoli, mash a 65°C.\n[FERMENTAZIONE] 18-20°C per bilanciare banana (esteri) e chiodi di garofano (fenoli).", notes: "BJCP 10A: Corpo soffice, alta carbonazione. Zero sapore di luppolo, domina il lievito." },
+      bjcp_stout: { name: "Irish Stout", yeast: "S-04 o Irish Ale Yeast", og: 1040, fg: 1008, ph: 420, temp: 180, ibu: 35, ing: "• Malto Pale Ale — 3.5 kg\n• Orzo Tostato (Roasted Barley) — 400g\n• Fiocchi d'Orzo — 500g\n• Luppolo EKG — 40g", proc: "[MASH] Singolo step a 65°C.\n[ACQUA] Bilanciamento dei carbonati per contrastare l'acidità dei malti scuri.", notes: "BJCP 15B: Nera, secca, con sentori di caffè espresso. Poco alcolica, corpo setoso dai fiocchi." },
+      bjcp_ipa: { name: "American IPA", yeast: "US-05", og: 1060, fg: 1012, ph: 410, temp: 190, ibu: 60, ing: "• Malto Pale Ale — 5.5 kg\n• Crystal 40L — 200g (per colore)\n• Columbus — 20g (Boil 60')\n• Citra / Simcoe — 50g (Whirlpool)\n• Citra / Simcoe — 80g (Dry Hop)", proc: "[BOIL] Amaro netto ma pulito.\n[DRY HOP] Giorno 4 o a fine fermentazione primaria per 3-5 giorni.", notes: "BJCP 21A: Amaro pronunciato, secca, esplosione di agrumi e pino. Nessun diacetile." },
+      bjcp_neipa: { name: "Hazy / New England IPA", yeast: "LalBrew Verdant / London Ale III", og: 1065, fg: 1016, ph: 430, temp: 200, ibu: 25, ing: "• Malto Pale / Pils — 5 kg\n• Fiocchi d'Avena — 1 kg\n• Frumento Maltato — 500g\n• Citra/Mosaic/Galaxy — 150g (solo Whirlpool e Dry Hop)", proc: "[ACQUA] Cloruri alti (2:1 rispetto ai Solfati).\n[DRY HOP] Doppio DH: il primo in fermentazione attiva (biotrasformazione), il secondo a fine.", notes: "BJCP 21C: Aspetto torbido (hazy), amaro bassissimo, succo di frutta tropicale. Corpo morbido." },
+      bjcp_saison: { name: "Saison Tradizionale", yeast: "Belle Saison o WLP400", og: 1055, fg: 1004, ph: 400, temp: 250, ibu: 25, ing: "• Malto Pilsner — 5 kg\n• Frumento / Segale — 500g\n• Saaz / EKG — 40g\n• Coriandolo / Pepe (Opzionale)", proc: "[MASH] Basso (63°C) per massima fermentabilità.\n[FERMENTAZIONE] Lasciar salire la temperatura liberamente (fino a 25-28°C) per esaltare esteri e fenoli.", notes: "BJCP 25B: Estremamente secca, alta carbonazione, pepata, rinfrescante." },
+      bjcp_cider_new: { name: "New World Cider", yeast: "EC-1118 o Mangrove M02", og: 1050, fg: 1000, ph: 330, temp: 160, ibu: 0, ing: "• Succo di mele miste — 20 L\n• Fermaid O — 0.2 g/L\n• Acido Malico (se necessario)", proc: "[NUTRIZIONE] Aggiunta di Fermaid O al giorno 1 e giorno 3.\n[FERM] Lenta e a bassa temperatura per preservare gli aromi primari della mela.", notes: "BJCP C1A: Pulito, rinfrescante, mela netta." },
+      bjcp_cider_eng: { name: "English Trad. Cider", yeast: "Lievito Autoctono o S-04", og: 1055, fg: 998, ph: 360, temp: 150, ibu: 0, ing: "• Succo di mele da sidro — 20 L\n• Nutriente Base — 0.1 g/L", proc: "[FERMENTAZIONE] Spesso spontanea. Possibile fermentazione malolattica naturale.", notes: "BJCP C1B: Complesso, tannico, leggermente astringente." },
+      bjcp_perry: { name: "Traditional Perry", yeast: "Lievito da vino bianco / Autoctono", og: 1050, fg: 1006, ph: 370, temp: 150, ibu: 0, ing: "• Succo di pere da Perry — 20 L\n• Pectolasi — 1g/L", proc: "Attenzione al sorbitolo: la FG rimane più alta.", notes: "BJCP C2B: Delicato aroma di pera, astringenza tannica." },
+      bjcp_mead: { name: "Dry Traditional Mead", yeast: "Lalvin D47 o EC-1118", og: 1090, fg: 996, ph: 380, temp: 180, ibu: 0, ing: "• Miele di alta qualità — 4-5 kg\n• Acqua — fino a 20L\n• Fermaid O / K + DAP", proc: "[TOSNA] Aggiunta scaglionata di nutrienti.\n[DEGASING] Agitare nei primi giorni.", notes: "BJCP M1A: Idromele secco, il miele deve dominare l'aroma." },
+      tea_kombucha: { name: "Kombucha Classico", yeast: "SCOBY", og: 1030, fg: 1010, ph: 300, temp: 240, ibu: 0, ing: "• Acqua — 5 L\n• Tè Nero — 40g\n• Zucchero bianco — 400g\n• Starter Kombucha — 500ml\n• SCOBY", proc: "[F1] 7-14 giorni.\n[F2] Aggiunta frutta per carbonazione.", notes: "Acido acetico, lattico e gluconico." },
+      tea_jun: { name: "Jun", yeast: "SCOBY da Jun", og: 1030, fg: 1008, ph: 320, temp: 210, ibu: 0, ing: "• Acqua — 5 L\n• Tè Verde — 40g\n• Miele Grezzo — 400g\n• Starter Jun — 500ml", proc: "Fermentazione più rapida e fresca del kombucha standard.", notes: "Profilo più floreale e simile a uno spumante." },
+      mix_wild: { name: "Wild Ale", yeast: "Brettanomyces + L. Brevis + Saison Yeast", og: 1055, fg: 1002, ph: 330, temp: 220, ibu: 10, ing: "• Malto Pilsner — 4 kg\n• Frumento non maltato — 1 kg\n• Luppolo invecchiato — 30g", proc: "[MASH] Alto.\n[FERM] Primaria Saccharomyces, poi Brett e Lattobacilli.", notes: "Funky, acida, complessa." },
+      mix_botanico: { name: "Fermentato Botanico Salato", yeast: "L. Rheticus + L. Plantarum", og: 1035, fg: 1006, ph: 320, temp: 250, ibu: 0, ing: "• Acqua — 10 L\n• Zuccheri semplici — 500g\n• Sale Marino — 5 g/L\n• Spezie/Erbe — 50g totali\n• Lattobacilli — 1 dose", proc: "[BOIL] Infusione botaniche.\n[FERM] Fermentazione lattica anaerobica.", notes: "Bevanda da tavola complessa, sapida, acida." }
+    };
+
+    const defaultDatabase = {
+      nutrients: [
+        {name: "DAP (Diammonio Fosfato)", tags: ["AZOTO INORGANICO", "AVVIO"], desc: "Nutriente base. Dà sprint alla moltiplicazione cellulare.", unit: "g/L"},
+        {name: "Fermaid O / Organico", tags: ["AZOTO ORGANICO", "VITAMINE"], desc: "Nutrizione morbida, previene puzze di zolfo.", unit: "g/L"},
+        {name: "Zinco Solfato", tags: ["MINERALE", "BOIL"], desc: "Minerale vitale per la salute del lievito da birra.", unit: "g/L"}
+      ],
+      hops: [
+        {name: "Citra", tags: ["AROMA", "USA"], desc: "Esplosione di pompelmo, melone, lime, uva spina.", unit: "g"},
+        {name: "Mosaic", tags: ["DUAL", "USA"], desc: "Profilo complesso: mirtillo, mandarino, pino.", unit: "g"},
+        {name: "Saaz", tags: ["AROMA", "CZ", "NOBILE"], desc: "Erbaceo, terroso, speziato. Re delle Pilsner.", unit: "g"}
+      ],
+      yeasts: [
+        {name: "W-34/70 (Fermentis)", tags: ["BASSA FERM.", "LAGER"], desc: "Fermenta pulito tra 10-15°C. Attenuazione 82%.", unit: "g"},
+        {name: "US-05 (Fermentis)", tags: ["ALTA FERM.", "ALE"], desc: "Pulito, bilanciato. Attenuazione 81%.", unit: "g"},
+        {name: "EC-1118 (Lalvin)", tags: ["VINO/SIDRO", "KILLER"], desc: "Tollera fino al 18% ABV. Molto secco.", unit: "g"}
+      ],
+      malts: [
+        {name: "Malto Pilsner", tags: ["BASE", "CHIARO"], desc: "Malto base chiaro, note di miele e pane bianco.", unit: "kg"},
+        {name: "CaraPils / Dextrin", tags: ["SCHIUMA", "CORPO"], desc: "Destrine non fermentabili per corpo e schiuma.", unit: "kg"}
+      ],
+      botanicals: [
+        {name: "Ginepro (Bacche)", tags: ["RESINOSO", "GIN"], desc: "Aroma pungente e balsamico.", unit: "g"},
+        {name: "Coriandolo (Semi)", tags: ["AGRUMATO", "BLANCHE"], desc: "Dona note di limone/arancia.", unit: "g"},
+        {name: "Sale Marino", tags: ["SAPIDO", "MINERALE"], desc: "Apporto salino essenziale per Gose/Cambuse.", unit: "g/L"}
+      ],
+      teas: [
+        {name: "Tè Oolong", tags: ["FLOREALE"], desc: "Elegante, note di orchidea e miele.", unit: "g"},
+        {name: "Tè Verde (Sencha)", tags: ["VEGETALE"], desc: "Fresco, erbaceo, umami.", unit: "g"}
+      ],
+      fruits: [
+        {name: "Mela (Succo)", tags: ["SIDRO", "MALICO"], desc: "Base fondamentale per sidro.", unit: "L"},
+        {name: "Mango (Purea)", tags: ["TROPICALE"], desc: "Densa, aggiunge forti note dolci.", unit: "kg"}
+      ]
+    };
+
+    const categoryTitles = {
+      nutrients: "Nutrienti",
+      hops: "Luppoli",
+      yeasts: "Lieviti",
+      malts: "Malti e Grani",
+      botanicals: "Spezie & Botaniche",
+      teas: "Tè",
+      fruits: "Frutta"
+    };
+
+    let currentDB = {};
+    let activeCategory = "hops";
+
+    function $(id) { return document.getElementById(id); }
+
+    function initApp() {
+      const savedDB = localStorage.getItem('xa_custom_db_v8');
+      if(savedDB) {
+        currentDB = JSON.parse(savedDB);
+        for(let key in defaultDatabase) {
+          if(!currentDB[key]) currentDB[key] = defaultDatabase[key];
+        }
+      } else {
+        currentDB = JSON.parse(JSON.stringify(defaultDatabase));
+      }
+
+      buildTabs();
+      renderDBList(activeCategory);
+      buildVUs();
+      updateMixerFromInputs();
+      updateSheet();
+    }
+
+    function buildTabs() {
+      const container = $("db_tabs");
+      container.innerHTML = "";
+      Object.keys(categoryTitles).forEach(key => {
+        const btn = document.createElement("button");
+        btn.className = `db-tab ${key === activeCategory ? 'active' : ''}`;
+        btn.innerText = categoryTitles[key];
+        btn.onclick = () => {
+          document.querySelectorAll('.db-tab').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategory = key;
+          $("db_search").value = "";
+          renderDBList(key);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderDBList(category, filter = "") {
+      const grid = $("db_grid");
+      grid.innerHTML = "";
+      const q = filter.toLowerCase();
+      const items = currentDB[category].filter(i =>
+        i.name.toLowerCase().includes(q) ||
+        i.desc.toLowerCase().includes(q) ||
+        (i.tags && i.tags.join(" ").toLowerCase().includes(q))
+      );
+
+      if(items.length === 0) {
+        grid.innerHTML = `<p style="color:var(--text-muted); font-size:12px; grid-column:1/-1;">Nessun elemento trovato. Premi "+ AGGIUNGI AL DB".</p>`;
+        return;
+      }
+
+      items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        const tagsHTML = item.tags ? `<div class="item-tags">${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : '';
+
+        card.innerHTML = `
+          <div>
+            ${tagsHTML}
+            <div class="item-name">${item.name}</div>
+            <div class="item-desc">${item.desc}</div>
+          </div>
+          <button class="btn-insert">+ INSERISCI (${item.unit})</button>
+        `;
+
+        card.querySelector('.btn-insert').onclick = () => {
+          if(category === "yeasts" && confirm("Impostare questo come LIEVITO PRINCIPALE della ricetta? (Annulla per aggiungerlo alla lista ingredienti)")) {
+            $("r_yeast").value = item.name;
+            updateSheet();
+          } else {
+            const qty = prompt(`Quantità di ${item.name} in [${item.unit}]:`, "1");
+            if(qty) {
+              const txt = $("r_ingredients");
+              const line = `• ${item.name} — ${qty} ${item.unit}`;
+              txt.value = txt.value.trim() ? txt.value + "\n" + line : line;
+              updateSheet();
+            }
+          }
+        };
+        grid.appendChild(card);
+      });
+    }
+
+    $("db_search").addEventListener("input", (e) => renderDBList(activeCategory, e.target.value));
+
+    function openAddModal() { $("addModal").classList.add("active"); $("modal_cat").value = activeCategory; }
+    function closeAddModal() { $("addModal").classList.remove("active"); }
+
+    function saveCustomIngredient() {
+      const cat = $("modal_cat").value;
+      const name = $("modal_name").value.trim();
+      const desc = $("modal_desc").value.trim();
+      const tagsRaw = $("modal_tags").value.trim();
+      const unit = $("modal_unit").value.trim() || "g";
+
+      if(!name) return alert("Inserisci un nome valido.");
+
+      const tags = tagsRaw ? tagsRaw.split(",").map(t => t.trim().toUpperCase()) : [];
+      currentDB[cat].push({ name, desc, tags, unit });
+      localStorage.setItem('xa_custom_db_v8', JSON.stringify(currentDB));
+      closeAddModal();
+      activeCategory = cat;
+      buildTabs();
+      renderDBList(cat);
+
+      $("modal_name").value = "";
+      $("modal_desc").value = "";
+      $("modal_tags").value = "";
+    }
+
+    function buildVUs() {
+      ["vu_ph_l","vu_ph_r","vu_temp_l","vu_temp_r","vu_og_l","vu_og_r","vu_fg_l","vu_fg_r","vu_ibu_l","vu_ibu_r","vu_master_l","vu_master_r"].forEach(id => {
+        const el = $(id);
+        if(!el) return;
+        el.innerHTML = "";
+        for(let i=0;i<16;i++){
+          const s = document.createElement("span");
+          el.appendChild(s);
+        }
+      });
+    }
+
+    function setVU(id, ratio) {
+      const el = $(id);
+      if(!el) return;
+      const bars = Array.from(el.children);
+      const onCount = Math.round(ratio * bars.length);
+      bars.forEach((bar, i) => {
+        bar.className = "";
+        if(i < onCount) {
+          if(i < 9) bar.classList.add("on","g");
+          else if(i < 13) bar.classList.add("on","y");
+          else bar.classList.add("on","r");
+        }
+      });
+    }
+
+    function sgToPlato(sg){ return -616.868 + (1111.14 * sg) - (630.272 * sg * sg) + (135.997 * sg * sg * sg); }
+    function calcABV(og, fg){ return Math.max(0, (og - fg) * 131.25); }
+    function calcAtt(og, fg){
+      const o = (og - 1)*1000;
+      const f = (fg - 1)*1000;
+      return o <= 0 ? 0 : Math.max(0, ((o - f)/o)*100);
+    }
+
+    function updateMixerFromInputs() {
+      const ph = parseFloat($("m_ph").value) / 100;
+      const temp = parseFloat($("m_temp").value) / 10;
+      const og = parseFloat($("m_og").value) / 1000;
+      const fg = parseFloat($("m_fg").value) / 1000;
+      const ibu = parseFloat($("m_ibu").value);
+      const master = parseFloat($("m_master").value);
+
+      const abv = calcABV(og, fg);
+      const att = calcAtt(og, fg);
+      const sugar = Math.max(0, (fg - 1) * 1000 * 2.4);
+      const cal = Math.max(0, (((6.9 * (abv*0.79)) + (4.0 * ((0.1808 * sgToPlato(og)) + (0.8192 * sgToPlato(fg)) - 0.10))) * fg * 3.55) * (330/355));
+
+      $("m_ph_val").innerText = ph.toFixed(2);
+      $("m_temp_val").innerText = temp.toFixed(1);
+      $("m_og_val").innerText = og.toFixed(3);
+      $("m_fg_val").innerText = fg.toFixed(3);
+      $("m_ibu_val").innerText = ibu.toFixed(0);
+      $("m_abv_val").innerText = abv.toFixed(2) + "%";
+
+      $("t_att").innerText = att.toFixed(1) + " %";
+      $("t_sugar").innerText = sugar.toFixed(1) + " g/L";
+      $("t_kcal").innerText = Math.round(cal);
+
+      setVU("vu_ph_l", (ph - 2.8)/(5.0 - 2.8));
+      setVU("vu_ph_r", (ph - 2.8)/(5.0 - 2.8));
+      setVU("vu_temp_l", temp/35);
+      setVU("vu_temp_r", temp/35);
+      setVU("vu_og_l", (og - 1.000)/(1.120 - 1.000));
+      setVU("vu_og_r", (og - 1.000)/(1.120 - 1.000));
+      setVU("vu_fg_l", (fg - 0.998)/(1.040 - 0.998));
+      setVU("vu_fg_r", (fg - 0.998)/(1.040 - 0.998));
+      setVU("vu_ibu_l", ibu/120);
+      setVU("vu_ibu_r", ibu/120);
+
+      const mR = Math.min((abv/12) * (master/100), 1);
+      setVU("vu_master_l", mR);
+      setVU("vu_master_r", mR);
+
+      updateSheet();
+    }
+
+    ["m_ph", "m_temp", "m_og", "m_fg", "m_ibu", "m_master"].forEach(id => {
+      $(id).addEventListener("input", updateMixerFromInputs);
+    });
+
+    function updateSheet() {
+      const name = $("r_name").value || "Ricetta Senza Nome";
+      const lot = $("r_lot").value || "---";
+      const yeast = $("r_yeast").value || "---";
+      const ing = $("r_ingredients").value || "Nessun ingrediente.";
+      const proc = $("r_process").value || "Nessun processo.";
+      const notes = $("r_notes").value || "Nessuna nota.";
+
+      const abv = $("m_abv_val").innerText;
+      const ph = $("m_ph_val").innerText;
+      const og = $("m_og_val").innerText;
+      const fg = $("m_fg_val").innerText;
+      const ibu = $("m_ibu_val").innerText;
+
+      $("official_sheet").innerHTML = `
+        <div class="sheet-head">
+          <div class="sheet-title">${name}</div>
+          <div class="sheet-meta">Lotto / Data: ${lot}</div>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #ccc; padding-bottom:10px;">
+          <div><b>Lievito Base:</b> ${yeast}</div>
+          <div style="text-align:right;"><b>ABV:</b> ${abv} | <b>IBU:</b> ${ibu} | <b>pH:</b> ${ph}<br><b>OG:</b> ${og} | <b>FG:</b> ${fg}</div>
+        </div>
+        <div class="sheet-section">Distinta Ingredienti</div>
+        <div class="sheet-content">${ing}</div>
+        <div class="sheet-section">Processo & Aggiunte Scaglionate</div>
+        <div class="sheet-content">${proc}</div>
+        <div class="sheet-section">Logbook / Note (BJCP/Stile)</div>
+        <div class="sheet-content" style="font-style:italic;">${notes}</div>
+      `;
+    }
+
+    ["r_name", "r_lot", "r_yeast", "r_ingredients", "r_process", "r_notes"].forEach(id => {
+      $(id).addEventListener("input", updateSheet);
+    });
+
+    function clearRecipe() {
+      if(!confirm("Svuotare completamente la ricetta?")) return;
+      ["r_name", "r_lot", "r_yeast", "r_ingredients", "r_process", "r_notes"].forEach(id => $(id).value = "");
+      updateSheet();
+      $("template_selector").value = "";
+    }
+
+    function loadSelectedTemplate() {
+      const key = $("template_selector").value;
+      if(!key) return alert("Seleziona uno stile dal menu a tendina prima di caricare.");
+
+      const t = templates[key];
+      if(!t) return;
+
+      if(!confirm(`Caricare il template "${t.name}"? Verranno sovrascritti i dati attuali.`)) return;
+
+      $("r_name").value = t.name;
+      $("r_yeast").value = t.yeast;
+      $("r_ingredients").value = t.ing;
+      $("r_process").value = t.proc;
+      $("r_notes").value = t.notes;
+
+      $("m_og").value = t.og;
+      $("m_fg").value = t.fg;
+      $("m_ph").value = t.ph;
+      $("m_temp").value = t.temp;
+      $("m_ibu").value = t.ibu;
+
+      updateMixerFromInputs();
+    }
+
+    function saveToArchive() {
+      const archive = JSON.parse(localStorage.getItem("xa_archive_v8") || "[]");
+      archive.unshift({
+        id: Date.now(),
+        name: $("r_name").value || "Ricetta senza nome",
+        lot: $("r_lot").value || "---",
+        yeast: $("r_yeast").value || "---",
+        ingredients: $("r_ingredients").value || "",
+        process: $("r_process").value || "",
+        notes: $("r_notes").value || "",
+        abv: $("m_abv_val").innerText,
+        og: $("m_og_val").innerText,
+        fg: $("m_fg_val").innerText,
+        ibu: $("m_ibu_val").innerText,
+        ph: $("m_ph_val").innerText
+      });
+      localStorage.setItem("xa_archive_v8", JSON.stringify(archive));
+      renderArchive();
+      alert("Lotto salvato in archivio.");
+    }
+
+    function renderArchive() {
+      const archive = JSON.parse(localStorage.getItem("xa_archive_v8") || "[]");
+      const box = $("archive_list");
+      box.innerHTML = "";
+
+      if(archive.length === 0) {
+        box.innerHTML = `<p style="color:var(--text-muted);">Nessun lotto salvato.</p>`;
+        return;
+      }
+
+      archive.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "panel";
+        row.style.padding = "14px";
+        row.innerHTML = `
+          <div style="display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap;">
+            <div>
+              <div style="font-size:18px; font-weight:900;">${item.name}</div>
+              <div style="color:var(--text-muted); font-size:12px; margin-top:6px;">Lotto: ${item.lot} • Lievito: ${item.yeast}</div>
+              <div style="color:var(--text-muted); font-size:12px; margin-top:6px;">ABV: ${item.abv} • OG: ${item.og} • FG: ${item.fg} • IBU: ${item.ibu} • pH: ${item.ph}</div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn green">APRI</button>
+              <button class="btn red">ELIMINA</button>
+            </div>
+          </div>
+        `;
+
+        const [openBtn, delBtn] = row.querySelectorAll("button");
+
+        openBtn.onclick = () => {
+          $("r_name").value = item.name;
+          $("r_lot").value = item.lot;
+          $("r_yeast").value = item.yeast;
+          $("r_ingredients").value = item.ingredients;
+          $("r_process").value = item.process;
+          $("r_notes").value = item.notes;
+
+          const abvNum = parseFloat(item.abv);
+          const ogNum = parseFloat(item.og) * 1000;
+          const fgNum = parseFloat(item.fg) * 1000;
+          const ibuNum = parseFloat(item.ibu);
+          const phNum = parseFloat(item.ph) * 100;
+
+          if(!isNaN(ogNum)) $("m_og").value = Math.round(ogNum);
+          if(!isNaN(fgNum)) $("m_fg").value = Math.round(fgNum);
+          if(!isNaN(ibuNum)) $("m_ibu").value = Math.round(ibuNum);
+          if(!isNaN(phNum)) $("m_ph").value = Math.round(phNum);
+          if(!isNaN(abvNum)) {
+            const temp = parseFloat($("m_temp").value) / 10;
+          }
+
+          updateMixerFromInputs();
+          updateSheet();
+
+          document.querySelectorAll(".nav-bar .nav").forEach(b => b.classList.remove("active"));
+          document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+          document.querySelector('[data-target="screen-recipe"]').classList.add("active");
+          $("screen-recipe").classList.add("active");
+        };
+
+        delBtn.onclick = () => {
+          if(!confirm("Eliminare questo lotto?")) return;
+          const next = JSON.parse(localStorage.getItem("xa_archive_v8") || "[]").filter(v => v.id !== item.id);
+          localStorage.setItem("xa_archive_v8", JSON.stringify(next));
+          renderArchive();
+        };
+
+        box.appendChild(row);
+      });
+    }
+
+    document.querySelectorAll(".nav-bar .nav").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        document.querySelectorAll(".nav-bar .nav").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+        e.target.classList.add("active");
+        $(e.target.dataset.target).classList.add("active");
+      });
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+
+    window.onload = () => {
+      initApp();
+      renderArchive();
+    };
+  </script>
+</body>
+</html>
